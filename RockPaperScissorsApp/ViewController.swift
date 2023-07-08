@@ -14,12 +14,16 @@ enum RPS: String {
 
 
 
+
+
 class ViewController: UIViewController {
     private var playerScore = 0
     private var computerScore = 0
 
     @IBOutlet weak var rockButton: UIButton!
+    
     @IBOutlet weak var paperButton: UIButton!
+    
     @IBOutlet weak var scissorsButton: UIButton!
     
     @IBOutlet weak var playerScoreLabel: UITextField!
@@ -39,14 +43,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        view1.layer.cornerRadius = 35
+        view1.layer.cornerRadius = 20
         
-        super.viewDidLoad()
-        rockButton.clipsToBounds = true
-        rockButton.contentMode = .scaleAspectFill
-
-        // Use setBackgroundImage or setImage
-        rockButton.setBackgroundImage(UIImage(named: "rock"), for: .normal)
+        rockButton.layer.cornerRadius = 20
+        paperButton.layer.cornerRadius = 20
+        scissorsButton.layer.cornerRadius = 20
         
     }
    
@@ -135,10 +136,9 @@ class ViewController: UIViewController {
             } else {
                 message = "Computer won!"
             }
-            let alertController = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
-            let restartAction = UIAlertAction(title: "Restart", style: .default) { [weak self] _ in
-                self?.resetGame()
-            }
+            let alertController = UIAlertController(title: "Dou you want to delete score and restart the game?", message: "", preferredStyle: .alert)
+            let restartAction = UIAlertAction(title: "Yes!", style: .default)
+             { [weak self] _ in self?.resetGame()}
             alertController.addAction(restartAction)
             present(alertController, animated: true, completion: nil)
         }
@@ -153,21 +153,53 @@ class ViewController: UIViewController {
             playerScoreLabel.text = "Your Score: 0"
             computerScoreLabel.text = "Computer Score: 0"
         }
+    
         
         
     @IBAction func clearButton(_ sender: Any) {
         gameOver()
     }
     
-    @IBAction func rockButtonTapped(_ sender: Any) {
+    @IBAction func rockButtonTapped(_ sender: UIButton) {
+        
+        UIView.animate(withDuration: 0.1) {
+                   sender.alpha = 0.5
+               }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15 ) {
+                   UIView.animate(withDuration: 0.1) {
+                       sender.alpha = 1.0
+                   }
+               }
+       
         playGame(.rock)
     }
     
-    @IBAction func paperButtonTapped(_ sender: Any) {
+    @IBAction func paperButtonTapped(_ sender: UIButton) {
+        
+        UIView.animate(withDuration: 0.1) {
+                   sender.alpha = 0.5
+               }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15 ) {
+                   UIView.animate(withDuration: 0.1) {
+                    sender.alpha = 1.0
+                   }
+               }
+        
         playGame(.paper)
     }
     
-    @IBAction func scissorsButtonTapped(_ sender: Any) {
+    @IBAction func scissorsButtonTapped(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.1) {
+                   sender.alpha = 0.5
+               }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15 ) {
+        UIView.animate(withDuration: 0.1) {
+                       sender.alpha = 1.0
+                   }
+               }
         playGame(.scissors)
     }
     
